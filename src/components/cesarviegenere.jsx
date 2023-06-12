@@ -13,20 +13,36 @@ function CesarVigenere() {
         let textoCifrado = '';
         const claveStr = String(clave);
         const claveLength = claveStr.length;
+        let claveIndex = 0;
 
         for (let i = 0; i < mensaje.length; i++) {
             let char = mensaje[i];
+            let code = mensaje.charCodeAt(i);
+            let desplazamiento;
 
             if (char.match(/[a-z]/i)) {
-                let code = mensaje.charCodeAt(i);
-                let claveChar = claveStr[i % claveLength].toLowerCase();
-                let desplazamiento = claveChar.charCodeAt(0) - 97;
+                let claveChar = claveStr[claveIndex % claveLength];
+
+                if (claveChar.match(/[a-z]/i)) {
+                    desplazamiento = claveChar.toLowerCase().charCodeAt(0) - 97;
+                } else if (claveChar.match(/[0-9]/)) {
+                    desplazamiento = claveChar.charCodeAt(0) - 48;
+                } else if (claveChar === ' ') {
+                    textoCifrado += char;
+                    continue; // Pasar al siguiente carácter del mensaje
+                } else {
+                    // Carácter inválido en la clave, se omite
+                    claveIndex++;
+                    continue; // Pasar al siguiente carácter del mensaje
+                }
 
                 if (code >= 65 && code <= 90) {
                     char = String.fromCharCode(((code - 65 + desplazamiento) % 26) + 65);
                 } else if (code >= 97 && code <= 122) {
                     char = String.fromCharCode(((code - 97 + desplazamiento) % 26) + 97);
                 }
+
+                claveIndex++;
             }
 
             textoCifrado += char;
@@ -35,8 +51,52 @@ function CesarVigenere() {
         return textoCifrado;
     };
 
-    const descifrarCesar = (mensaje, desplazamiento) => {
-        return cifrarCesar(mensaje, 26 - (desplazamiento % 26));
+    const descifrarCesar = (mensaje, clave) => {
+        let textoDescifrado = '';
+        const claveStr = String(clave);
+        const claveLength = claveStr.length;
+        let claveIndex = 0;
+
+        for (let i = 0; i < mensaje.length; i++) {
+            let char = mensaje[i];
+            let code = mensaje.charCodeAt(i);
+            let desplazamiento;
+
+            if (char.match(/[a-z]/i)) {
+                let claveChar = claveStr[claveIndex % claveLength];
+
+                if (claveChar.match(/[a-z]/i)) {
+                    desplazamiento = claveChar.toLowerCase().charCodeAt(0) - 97;
+
+                    if (code >= 65 && code <= 90) {
+                        char = String.fromCharCode(((code - 65 - desplazamiento + 26) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        char = String.fromCharCode(((code - 97 - desplazamiento + 26) % 26) + 97);
+                    }
+                } else if (claveChar.match(/[0-9]/)) {
+                    desplazamiento = parseInt(claveChar) % 26;
+
+                    if (code >= 65 && code <= 90) {
+                        char = String.fromCharCode(((code - 65 - desplazamiento + 26) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        char = String.fromCharCode(((code - 97 - desplazamiento + 26) % 26) + 97);
+                    }
+                } else if (claveChar === ' ') {
+                    textoDescifrado += char;
+                    continue; // Pasar al siguiente carácter del mensaje
+                } else {
+                    // Carácter inválido en la clave, se omite
+                    claveIndex++;
+                    continue; // Pasar al siguiente carácter del mensaje
+                }
+
+                claveIndex++;
+            }
+
+            textoDescifrado += char;
+        }
+
+        return textoDescifrado;
     };
 
     const cifrarVigenere = (mensaje, clave) => {
@@ -50,6 +110,12 @@ function CesarVigenere() {
                 let code = mensaje.charCodeAt(i);
                 let claveChar = clave.charCodeAt(claveIndex % clave.length);
                 let desplazamiento;
+
+                if (claveChar === 32) {
+                    // Si el carácter de la clave es un espacio, se ignora y no se realiza desplazamiento
+                    claveIndex++;
+                    claveChar = clave.charCodeAt(claveIndex % clave.length);
+                }
 
                 if (claveChar >= 65 && claveChar <= 90) {
                     desplazamiento = claveChar - 65;
@@ -74,7 +140,6 @@ function CesarVigenere() {
         return textoCifrado;
     };
 
-
     const descifrarVigenere = (mensaje, clave) => {
         let textoDescifrado = '';
         let claveIndex = 0;
@@ -86,6 +151,12 @@ function CesarVigenere() {
                 let code = mensaje.charCodeAt(i);
                 let claveChar = clave.charCodeAt(claveIndex % clave.length);
                 let desplazamiento;
+
+                if (claveChar === 32) {
+                    // Si el carácter de la clave es un espacio, se ignora y no se realiza desplazamiento
+                    claveIndex++;
+                    claveChar = clave.charCodeAt(claveIndex % clave.length);
+                }
 
                 if (claveChar >= 65 && claveChar <= 90) {
                     desplazamiento = claveChar - 65;
@@ -109,7 +180,6 @@ function CesarVigenere() {
 
         return textoDescifrado;
     };
-
 
     const handleChange = (e) => {
         setState((prevState) => ({ ...prevState, [e.target.id]: e.target.value }));
