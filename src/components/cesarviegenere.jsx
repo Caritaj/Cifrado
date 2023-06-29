@@ -228,56 +228,56 @@ function CesarVigenere() {
     };
 
     return (
-        <div className="hero min-h-screen" style={{ backgroundImage: "url(https://globalendar.com/wp-content/uploads/2023/03/fondos-de-pantalla-aesthetic-blanco-2-scaled.jpg)" }}>
-            <div className="hero-content text-left">
-                <div className="max-w-md">
-                    <h1 className="m-4 text-5xl font-bold">Servicio de Cifrado</h1>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Mensaje"
-                            className="m-4 input input-bordered w-full max-w-xs"
-                            id="mensaje"
-                            value={mensaje}
-                            onChange={handleChange}
-                        />
-                        <button className="btn btn-ghost mask mask-squircle" onClick={limpiarCampos}>
-                            <i className="fa-solid fa-broom fa-xl"></i>
-                        </button>
-                    </div>
+        <div className="hero-content text-left">
+            <div className="max-w-md">
+                <h1 className="m-4 text-3xl font-semibold">César / Viegenére</h1>
+                <div className="flex justify-between items-center">
                     <input
                         type="text"
-                        placeholder="Clave"
+                        placeholder="Mensaje"
                         className="m-4 input input-bordered w-full max-w-xs"
-                        id="clave"
-                        value={clave}
+                        id="mensaje"
+                        value={mensaje}
                         onChange={handleChange}
                     />
-                    <div>
-                        <select
-                            className="m-4 select select-bordered w-full max-w-xs"
-                            id="tipoCifrado"
-                            value={tipoCifrado}
-                            onChange={handleChange}
-                        >
-                            <option defaultValue="">Tipo de Cifrado</option>
-                            <option value="cesar">Cifrado César</option>
-                            <option value="vigenere">Cifrado Vigenère</option>
-                        </select>
-                        <button className="btn btn-ghost" onClick={cifrar}>
-                            Cifrar
-                        </button>
-                    </div>
-                    <p className="m-4 text-xl font-semibold">Cifrado:</p>
-                    <div className="flex">
+                    <button className="btn btn-ghost mask mask-squircle justify-end" onClick={limpiarCampos}>
+                        <i className="fa-solid fa-broom fa-xl"></i>
+                    </button>
+                </div>
+                <input
+                    type="text"
+                    placeholder="Clave"
+                    className="m-4 input input-bordered w-full max-w-xs"
+                    id="clave"
+                    value={clave}
+                    onChange={handleChange}
+                />
+                <div>
+                    <select
+                        className="m-4 select select-bordered w-full max-w-xs"
+                        id="tipoCifrado"
+                        value={tipoCifrado}
+                        onChange={handleChange}
+                    >
+                        <option defaultValue="">Tipo de Cifrado</option>
+                        <option value="cesar">Cifrado César</option>
+                        <option value="vigenere">Cifrado Vigenére</option>
+                    </select>
+                    <button className="btn btn-ghost" onClick={cifrar}>
+                        Cifrar
+                    </button>
+                </div>
+                <p className="m-4 text-xl font-semibold">Cifrado:</p>
+                <div className="flex">
+                    <div className="flex justify-between items-center">
                         <textarea type="text" placeholder={resultadoCifrado} className="input input-bordered w-full max-w-xs mr-2" disabled />
-                        <button className="btn btn-ghost ml-2" onClick={descifrar}>
+                        <button className="btn btn-ghost ml-2 justify-end" onClick={descifrar}>
                             Descifrar
                         </button>
                     </div>
-                    <p className="m-4 text-xl font-semibold">Descifrado:</p>
-                    <textarea type="text" placeholder={resultadoDescifrado} className="input input-bordered w-full max-w-xs" disabled />
                 </div>
+                <p className="m-4 text-xl font-semibold">Descifrado:</p>
+                <textarea type="text" placeholder={resultadoDescifrado} className="input input-bordered w-full max-w-xs" disabled />
             </div>
         </div>
     );
