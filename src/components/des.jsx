@@ -40,6 +40,10 @@ function Des() {
                     return;
                 }
                 const decryptedContent = CryptoJS.DES.decrypt(fileContent, key).toString(CryptoJS.enc.Utf8);
+                if (decryptedContent === '') {
+                    alert('La clave utilizada para descifrar no es válida.');
+                    return;
+                }
                 const decryptedFileBlob = new Blob([decryptedContent], { type: 'text/plain' });
                 downloadFile(decryptedFileBlob, 'decrypted_file.txt', 'decrypt');
             };
