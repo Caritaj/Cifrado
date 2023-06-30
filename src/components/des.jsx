@@ -29,16 +29,17 @@ function Des() {
     };
 
     // Función para descifrar el archivo
-    const decryptFile = () => {
-        if (encryptedFile && key.length === 8) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const fileContent = event.target.result;
-                const fileExtension = encryptedFile.name.split('.').pop().toLowerCase();
-                if (fileExtension !== 'txt') {
-                    alert('Por favor, selecciona un archivo de texto (.txt) cifrado.');
-                    return;
-                }
+const decryptFile = () => {
+    if (encryptedFile && key.length === 8) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const fileContent = event.target.result;
+            const fileExtension = encryptedFile.name.split('.').pop().toLowerCase();
+            if (fileExtension !== 'txt') {
+                alert('Por favor, selecciona un archivo de texto (.txt) cifrado.');
+                return;
+            }
+            try {
                 const decryptedContent = CryptoJS.DES.decrypt(fileContent, key).toString(CryptoJS.enc.Utf8);
                 if (decryptedContent === '') {
                     alert('La clave utilizada para descifrar no es válida.');
@@ -46,12 +47,16 @@ function Des() {
                 }
                 const decryptedFileBlob = new Blob([decryptedContent], { type: 'text/plain' });
                 downloadFile(decryptedFileBlob, 'decrypted_file.txt', 'decrypt');
-            };
-            reader.readAsText(encryptedFile);
-        } else {
-            alert('La clave debe tener una longitud de 8 caracteres.');
-        }
-    };
+            } catch (error) {
+                alert('El archivo no corresponde a la clave proporcionada.');
+            }
+        };
+        reader.readAsText(encryptedFile);
+    } else {
+        alert('La clave debe tener una longitud de 8 caracteres.');
+    }
+};
+
 
     // Función para descargar el archivo
     const downloadFile = (fileBlob, fileName, action) => {
@@ -69,36 +74,46 @@ function Des() {
             setKey('');
         } else if (action === 'decrypt') {
             setEncryptedFile(null);
+            setKey('');
         }
     };
 
     return (
-        <div className="hero-content text-left">
-            <div className="max-w-md">
-                <h1 className="m-4 text-3xl font-semibold">DES</h1>
+        <div>
+            <div className="m-4 font-semibold">
+                <h1 className="text-5xl">DES</h1>
+                <p className="text-xl">Data Encryption Standard</p>
+            </div>
+            <textarea
+                type="text"
+                placeholder="Clave"
+                className="m-4 input input-bordered w-60"
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+            />
+            <p className="m-4 text-xl font-semibold">Cifrar</p>
+            <div className="m-4 flex justify-between items-center">
                 <input
-                    type="text"
-                    placeholder="Clave"
-                    className="m-4 input input-bordered w-full max-w-xs"
-                    value={key}
-                    onChange={(e) => setKey(e.target.value)}
-                />
-                <h1 className="m-4 text-xl font-semibold">Cifrar</h1>
-                <div className="m-4 flex justify-between items-center">
-                    <input type="file" accept=".txt" className="file-input file-input-bordered w-full max-w-xs" onChange={(e) => setFile(e.target.files[0])} />
-                    <button className="btn btn-ghost" onClick={encryptFile}>
-                        <i className="fa-solid fa-download fa-lg"></i>
-                        Cifrar
-                    </button>
-                </div>
-                <h1 className="m-4 text-xl font-semibold">Descifrar</h1>
-                <div className="m-4 flex justify-between items-center">
-                    <input type="file" accept=".txt" className="file-input file-input-bordered w-full max-w-xs" onChange={(e) => setEncryptedFile(e.target.files[0])} />
-                    <button className="btn btn-ghost" onClick={decryptFile}>
-                        <i className="fa-solid fa-download fa-lg"></i>
-                        Descifrar
-                    </button>
-                </div>
+                    type="file"
+                    accept=".txt"
+                    className="file-input file-input-bordered w-60"
+                    onChange={(e) => setFile(e.target.files[0])} />
+                <button className="btn btn-ghost justify-end" onClick={encryptFile}>
+                    <i className="fa-solid fa-download fa-lg"></i>
+                    Cifrar
+                </button>
+            </div>
+            <h1 className="m-4 text-xl font-semibold">Descifrar</h1>
+            <div className="m-4 flex justify-between items-center">
+                <input
+                    type="file"
+                    accept=".txt"
+                    className="file-input file-input-bordered w-60"
+                    onChange={(e) => setEncryptedFile(e.target.files[0])} />
+                <button className="btn btn-ghost justify-end" onClick={decryptFile}>
+                    <i className="fa-solid fa-download fa-lg"></i>
+                    Descifrar
+                </button>
             </div>
         </div>
     );

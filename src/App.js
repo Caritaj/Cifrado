@@ -46,7 +46,7 @@ function App() {
               <button
                 className="btn btn-ghost mr-4 "
                 onClick={() => handleOptionClick('home')}>
-                <i class="fa-solid fa-house fa-lg"></i>
+                <i className="fa-solid fa-house fa-lg"></i>
               </button>
               <button
                 className="btn btn-ghost mr-4 "
@@ -68,7 +68,9 @@ function App() {
         </div>
         {/* Page content here */}
         <div className="hero min-h-screen" style={{ backgroundImage: "url(https://globalendar.com/wp-content/uploads/2023/03/fondos-de-pantalla-aesthetic-blanco-2-scaled.jpg)" }}>
-          {renderSelectedOption()}
+          <div className="hero-content text-left">
+            {renderSelectedOption()}
+          </div>
         </div>
         <footer className="footer items-center p-4 bg-neutral text-neutral-content">
           <div className="items-center grid-flow-col">
