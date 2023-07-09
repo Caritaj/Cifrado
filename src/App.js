@@ -3,6 +3,7 @@ import './App.css';
 import CesarVigenere from './components/cesarviegenere';
 import DES from './components/des';
 import AES from './components/aes';
+import RSA from './components/rsa';
 
 function App() {
   const handleOptionClick = (option) => {
@@ -21,6 +22,8 @@ function App() {
         return <AES />
       case 'des':
         return <DES />;
+      case 'rsa':
+        return <RSA />;
       default:
         return null;
     }
@@ -63,11 +66,16 @@ function App() {
                 onClick={() => handleOptionClick('des')}>
                 DES
               </button>
+              <button
+                className="btn btn-ghost"
+                onClick={() => handleOptionClick('rsa')}>
+                RSA
+              </button>
             </div>
           </div>
         </div>
         {/* Page content here */}
-        <div className="hero min-h-screen" style={{ backgroundImage: "url(https://globalendar.com/wp-content/uploads/2023/03/fondos-de-pantalla-aesthetic-blanco-2-scaled.jpg)" }}>
+        <div className="hero h-screen overflow-y-auto" style={{ backgroundImage: "url(https://globalendar.com/wp-content/uploads/2023/03/fondos-de-pantalla-aesthetic-blanco-2-scaled.jpg)" }}>
           <div className="hero-content text-left">
             {renderSelectedOption()}
           </div>
@@ -86,7 +94,7 @@ function App() {
           <button
             className="btn btn-ghost mr-4 "
             onClick={() => handleOptionClick('home')}>
-            <i class="fa-solid fa-house fa-lg"></i>
+            <i className="fa-solid fa-house fa-lg"></i>
           </button>
           <button
             className="btn btn-ghost mr-4 "
@@ -102,6 +110,11 @@ function App() {
             className="btn btn-ghost"
             onClick={() => handleOptionClick('des')}>
             DES
+          </button>
+          <button
+            className="btn btn-ghost"
+            onClick={() => handleOptionClick('rsa')}>
+            RSA
           </button>
         </div>
       </div>

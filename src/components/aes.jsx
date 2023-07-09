@@ -64,9 +64,7 @@ const Aes = () => {
                     value={plaintext}
                     onChange={handlePlaintextChange}
                 />
-                <button
-                    className="btn btn-ghost mask mask-squircle justify-end"
-                    onClick={limpiarCampos}>
+                <button className="btn btn-ghost mask mask-squircle justify-end" onClick={limpiarCampos}>
                     <i className="fa-solid fa-broom fa-xl"></i>
                 </button>
             </div>
